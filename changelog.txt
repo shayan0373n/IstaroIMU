@@ -1,0 +1,19 @@
+# Changelog
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.0.0] - 2018-06-02
+### Added
+- A pointer to a HardwareSerial object inside the IMU object for debugging purposes.
+- setSerial() method to pass the Serial instance pointer to the IMU object.
+- init() method to perform initialization tasks (i.e. self-test, calibration, initialization).
+- update() method to update the output values if new sensor data is available.
+- MPU9250_RESET() macro defined function to reset the chip.
+- Enumerations for digital low pass (DLPF) registers for both accelerometer and gyro.
+
+### Changed
+- Calibration now requires a macro defined flag (one for each gyro and accel) to update the bias values to the bias registers. It still writes the bias values to the input array.
+- The name of AFS and GFS enumerators are changed to avoid confusion.
+- Minor changes in register initialization of IMU.
