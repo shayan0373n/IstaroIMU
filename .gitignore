@@ -3,6 +3,13 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Visual Micro Files and Folder
+*.sln
+*.vcxproj
+*.vcxproj.*
+__vm/
+
+
 # User-specific files
 *.suo
 *.user
