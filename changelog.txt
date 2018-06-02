@@ -12,8 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - update() method to update the output values if new sensor data is available.
 - MPU9250_RESET() macro defined function to reset the chip.
 - Enumerations for digital low pass (DLPF) registers for both accelerometer and gyro.
+- Debugging blocks inside the library which can be enabled by defining DEBUG macro.
 
 ### Changed
 - Calibration now requires a macro defined flag (one for each gyro and accel) to update the bias values to the bias registers. It still writes the bias values to the input array.
+- selfTest() method now returns true if self-test is passed. It also doesn't return the results. (But can show them if DEBUG is true.)
 - The name of AFS and GFS enumerators are changed to avoid confusion.
 - Minor changes in register initialization of IMU.
