@@ -73,8 +73,8 @@ void MPU9250::update() {
 		mz = (float)magCount[2] * mRes*magCalibration[2] * magscale[2]
 			- magbias[2];
 		updateTime();
-		madgwickquaternionupdate(ay, ax, -az, gy*deg_to_rad,
-			gx*deg_to_rad, -gz*deg_to_rad, mx,
+		MadgwickQuaternionUpdate(ay, ax, -az, gy*DEG_TO_RAD,
+			gx*DEG_TO_RAD, -gz*DEG_TO_RAD, mx,
 			my, mz, deltat, q);
 	/*	MadgwickQuaternionUpdate(ax, ay, az, gx*DEG_TO_RAD,
 			gy*DEG_TO_RAD, gz * DEG_TO_RAD, mx,
@@ -87,8 +87,8 @@ void MPU9250::update() {
 		pitch *= RAD_TO_DEG;
 		yaw *= RAD_TO_DEG;
 		roll *= RAD_TO_DEG;
-		// Declination of Shiraz (29° 36' 7" N   52° 31' 52" E) is
-		//   3° 12' E ± 0° 3' (or 3.2°) on 2016-07-19
+		// Declination of Shiraz (29ï¿½ 36' 7" N   52ï¿½ 31' 52" E) is
+		//   3ï¿½ 12' E ï¿½ 0ï¿½ 3' (or 3.2ï¿½) on 2016-07-19
 		// - http://www.ngdc.noaa.gov/geomag-web/#declination
 		yaw -= 3.2;
 	}
