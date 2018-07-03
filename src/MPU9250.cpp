@@ -24,15 +24,15 @@ bool MPU9250::init() {
 #endif // DEBUG
 			return false;
 		}
-		else
 #ifdef DEBUG
+		else
 			pSerialPort->println("Self test passed.");
 #endif // DEBUG
 		calibrateMPU9250(gyroBias, accelBias);
 		initMPU9250();
 #ifdef DEBUG
 		pSerialPort->println("MPU9250 is online...");
-#endif
+#endif // DEBUG
 		initAK8963(magCalibration);
 		return true;
 	}
@@ -72,26 +72,26 @@ void MPU9250::update() {
 			- magbias[1];
 		mz = (float)magCount[2] * mRes*magCalibration[2] * magscale[2]
 			- magbias[2];
-		updateTime();
-		MadgwickQuaternionUpdate(ay, ax, -az, gy*DEG_TO_RAD,
-			gx*DEG_TO_RAD, -gz*DEG_TO_RAD, mx,
-			my, mz, deltat, q);
-	/*	MadgwickQuaternionUpdate(ax, ay, az, gx*DEG_TO_RAD,
-			gy*DEG_TO_RAD, gz * DEG_TO_RAD, mx,
-			my, mz, deltat, q);*/
+	} // If data is not ready, iterate with the previous data
+	updateTime();
+	MadgwickQuaternionUpdate(ay, ax, -az, gy*DEG_TO_RAD,
+		gx*DEG_TO_RAD, -gz*DEG_TO_RAD, mx,
+		my, mz, deltat, q);
+/*	MadgwickQuaternionUpdate(ax, ay, az, gx*DEG_TO_RAD,
+		gy*DEG_TO_RAD, gz * DEG_TO_RAD, mx,
+		my, mz, deltat, q);*/
 
 
-		yaw = atan2(2.0f * (q[1] * q[2] + q[0] * q[3]), q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3]);
-		pitch = -asin(2.0f * (q[1] * q[3] - q[0] * q[2]));
-		roll = atan2(2.0f * (q[0] * q[1] + q[2] * q[3]), q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3]);
-		pitch *= RAD_TO_DEG;
-		yaw *= RAD_TO_DEG;
-		roll *= RAD_TO_DEG;
-		// Declination of Shiraz (29� 36' 7" N   52� 31' 52" E) is
-		//   3� 12' E � 0� 3' (or 3.2�) on 2016-07-19
-		// - http://www.ngdc.noaa.gov/geomag-web/#declination
-		yaw -= 3.2;
-	}
+	yaw = atan2(2.0f * (q[1] * q[2] + q[0] * q[3]), q[0] * q[0] + q[1] * q[1] - q[2] * q[2] - q[3] * q[3]);
+	pitch = -asin(2.0f * (q[1] * q[3] - q[0] * q[2]));
+	roll = atan2(2.0f * (q[0] * q[1] + q[2] * q[3]), q[0] * q[0] - q[1] * q[1] - q[2] * q[2] + q[3] * q[3]);
+	pitch *= RAD_TO_DEG;
+	yaw *= RAD_TO_DEG;
+	roll *= RAD_TO_DEG;
+	// Declination of Shiraz (29� 36' 7" N   52� 31' 52" E) is
+	//   3� 12' E � 0� 3' (or 3.2�) on 2016-07-19
+	// - http://www.ngdc.noaa.gov/geomag-web/#declination
+	yaw -= 3.2;
 }
 
 void MPU9250::getMres() {
