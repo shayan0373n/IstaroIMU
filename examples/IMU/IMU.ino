@@ -3,7 +3,7 @@
  Created:	5/28/2018 12:48:29 PM
  Author:	M.J
 */
-#include <Wire.h>
+#include <I2C.h>
 #include "MPU9250.h"
 #define DEBUG
 
@@ -12,7 +12,9 @@
 MPU9250 myIMU;
 
 void setup() {
-	Wire.begin();
+	I2c.begin();
+	I2c.pullup(0); // Disable internal pullup
+	I2c.timeOut(200); // 200 milliseconds time out to avoid i2c freezing
 #ifdef DEBUG
 	SerialPort.begin(115200);
 	myIMU.setSerial(&SerialPort);
